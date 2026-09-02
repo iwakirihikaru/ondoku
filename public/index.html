@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#f6f7fb" />
+  <title>おんどくチェック</title>
+  <link rel="manifest" href="/manifest.webmanifest">
+  <style>
+    :root{font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#172033;background:#f6f7fb}
+    *{box-sizing:border-box}body{margin:0}.wrap{max-width:760px;margin:auto;padding:16px 14px 32px}.card{background:#fff;border-radius:22px;padding:18px;box-shadow:0 8px 28px rgba(23,32,51,.08);margin-bottom:14px}.hero{padding:20px}h1{font-size:28px;margin:0 0 6px}h2{font-size:20px;margin:0 0 14px}.muted{color:#667085;font-size:14px}.row{display:flex;gap:12px;flex-wrap:wrap}.grow{flex:1;min-width:180px}label{display:block;font-weight:750;font-size:14px;margin:0 0 6px}input,textarea{width:100%;padding:13px 14px;border:1px solid #d8dee9;border-radius:14px;font-size:16px;background:#fff}textarea{min-height:160px;resize:vertical}.btn{border:0;border-radius:16px;padding:15px 18px;font-size:18px;font-weight:850;cursor:pointer}.primary{background:#172033;color:#fff}.danger{background:#b42318;color:#fff}.secondary{background:#eaecf0;color:#172033}.btn:disabled{opacity:.45}.hidden{display:none}.status{text-align:center;font-size:50px;font-weight:900}.timer{text-align:center;font-size:48px;font-weight:900;letter-spacing:.02em}.meter{height:16px;background:#eaecf0;border-radius:999px;overflow:hidden}.meter>div{height:100%;width:0%;background:#172033;transition:width .08s linear}.center{text-align:center}.notice{font-size:13px;line-height:1.6;background:#f8fafc;border-radius:14px;padding:12px}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.metric{background:#f8fafc;border-radius:14px;padding:12px;text-align:center}.metric b{display:block;font-size:21px}.teacher-link{display:block;text-align:center;color:#475467;font-size:14px;text-decoration:none;padding:6px}.error{background:#fff1f0;border:1px solid #fda29b;color:#912018;padding:10px 12px;border-radius:12px}.ok{background:#ecfdf3;border:1px solid #abefc6;color:#067647;padding:10px 12px;border-radius:12px}@media(max-width:520px){.wrap{padding:12px 10px 26px}.card{border-radius:18px;padding:16px}.grid{grid-template-columns:1fr}.timer{font-size:42px}}
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <section class="card hero">
+    <h1>📖 おんどくチェック</h1>
+    <div class="muted">ブラウザだけで使えます。録音データは文字起こし後に保存しません。</div>
+  </section>
+  <section class="card" id="setupCard">
+    <h2>きょうの音読</h2>
+    <div class="row">
+      <div class="grow"><label for="studentNo">出席番号</label><input id="studentNo" inputmode="numeric" pattern="[0-9]*" placeholder="例：12"></div>
+      <div class="grow"><label for="targetSec">目安時間（秒）</label><input id="targetSec" type="number" min="20" max="600" value="90"></div>
+    </div>
+    <label for="referenceText" style="margin-top:12px">今日の本文</label>
+    <textarea id="referenceText" placeholder="先生が登録した本文がここに表示されます。">大きなかぶが、なかなかぬけません。おじいさんは、おばあさんをよんできました。</textarea>
+    <div class="notice" style="margin-top:12px">マイク音声は端末で一時保持し、文字起こし後に一時ファイルを削除します。氏名・学校名は送信しません。</div>
+    <div style="margin-top:14px"><button class="btn primary" id="startBtn">🎤 音読スタート</button></div>
+  </section>
+  <section class="card hidden" id="readingCard">
+    <div class="timer" id="timer">0:00</div>
+    <p class="center" style="font-size:20px;font-weight:750">教科書を見て、声に出して読みましょう。</p>
+    <div class="meter"><div id="voiceMeter"></div></div>
+    <p class="muted center" id="voiceText">マイクを確認しています…</p>
+    <div class="center"><button class="btn danger" id="stopBtn">■ おわり</button></div>
+  </section>
+  <section class="card hidden" id="resultCard">
+    <div class="status" id="resultEmoji">🟡</div>
+    <h2 class="center" id="resultTitle">判定中…</h2>
+    <div id="resultMessage"></div>
+    <div class="grid" id="metrics" style="margin-top:12px"></div>
+    <div style="margin-top:14px"><button class="btn secondary" id="againBtn">もう一度</button></div>
+  </section>
+  <a class="teacher-link" href="/teacher.html">先生用一覧（この端末）</a>
+</div>
+<script type="module" src="/app.js"></script>
+</body>
+</html>
